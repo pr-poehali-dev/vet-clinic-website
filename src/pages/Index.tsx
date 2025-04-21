@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Footer from "@/components/Footer";
+import AppointmentDialog from "@/components/AppointmentDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, Calendar, MapPin, CheckCircle2 } from "lucide-react";
@@ -78,11 +79,18 @@ const Appointments = () => (
             Мы ценим ваше время и здоровье ваших питомцев!
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button variant="secondary" size="lg">
-              Записаться сейчас
-            </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-vetcare-primary">
-              Связаться с нами
+            <AppointmentDialog 
+              variant="secondary" 
+              size="lg" 
+              buttonText="Записаться сейчас" 
+            />
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-white text-white hover:bg-white hover:text-vetcare-primary"
+              asChild
+            >
+              <a href="/contacts">Связаться с нами</a>
             </Button>
           </div>
         </div>

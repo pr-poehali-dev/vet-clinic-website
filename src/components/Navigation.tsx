@@ -1,94 +1,142 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone } from "lucide-react";
+import AppointmentDialog from "@/components/AppointmentDialog";
 
 const Navigation = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
   };
 
   return (
-    <header className="bg-white shadow-sm">
-      <div className="container mx-auto py-4">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-playfair font-bold text-vetcare-primary">
-              ВетКлиника
+    <header className="bg-white sticky top-0 z-50 shadow-sm">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="flex items-center" onClick={closeMenu}>
+            <img
+              src="/logo-b.svg"
+              alt="ВетКэа"
+              className="h-10 w-auto mr-2"
+            />
+            <span className="text-xl font-bold text-vetcare-primary">
+              ВетКэа
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-gray-700 hover:text-vetcare-primary transition-colors duration-200">
+            <Link
+              to="/"
+              className={`font-medium transition-colors hover:text-vetcare-primary ${
+                isActive("/") ? "text-vetcare-primary" : "text-gray-700"
+              }`}
+            >
               Главная
             </Link>
-            <Link to="/services" className="text-gray-700 hover:text-vetcare-primary transition-colors duration-200">
+            <Link
+              to="/services"
+              className={`font-medium transition-colors hover:text-vetcare-primary ${
+                isActive("/services") ? "text-vetcare-primary" : "text-gray-700"
+              }`}
+            >
               Услуги
             </Link>
-            <Link to="/doctors" className="text-gray-700 hover:text-vetcare-primary transition-colors duration-200">
+            <Link
+              to="/doctors"
+              className={`font-medium transition-colors hover:text-vetcare-primary ${
+                isActive("/doctors") ? "text-vetcare-primary" : "text-gray-700"
+              }`}
+            >
               Врачи
             </Link>
-            <Link to="/contacts" className="text-gray-700 hover:text-vetcare-primary transition-colors duration-200">
+            <Link
+              to="/contacts"
+              className={`font-medium transition-colors hover:text-vetcare-primary ${
+                isActive("/contacts") ? "text-vetcare-primary" : "text-gray-700"
+              }`}
+            >
               Контакты
             </Link>
+            <AppointmentDialog />
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Phone size={18} className="text-vetcare-primary" />
-              <span className="text-gray-700 font-medium">+7 (800) 123-45-67</span>
-            </div>
-            <Button>Записаться</Button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button variant="ghost" onClick={toggleMenu} size="sm">
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Mobile Navigation Toggle */}
+          <div className="md:hidden flex items-center">
+            <AppointmentDialog buttonText="" icon={true} variant="ghost" size="icon" />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMenu}
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X /> : <Menu />}
             </Button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
+        {/* Mobile Navigation Menu */}
+        {isOpen && (
           <div className="md:hidden mt-4 pb-4">
             <nav className="flex flex-col space-y-4">
-              <Link 
-                to="/" 
-                className="text-gray-700 hover:text-vetcare-primary py-2 transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              <Link
+                to="/"
+                className={`font-medium px-4 py-2 rounded-md transition-colors ${
+                  isActive("/")
+                    ? "bg-vetcare-light text-vetcare-primary"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                onClick={closeMenu}
               >
                 Главная
               </Link>
-              <Link 
-                to="/services" 
-                className="text-gray-700 hover:text-vetcare-primary py-2 transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              <Link
+                to="/services"
+                className={`font-medium px-4 py-2 rounded-md transition-colors ${
+                  isActive("/services")
+                    ? "bg-vetcare-light text-vetcare-primary"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                onClick={closeMenu}
               >
                 Услуги
               </Link>
-              <Link 
-                to="/doctors" 
-                className="text-gray-700 hover:text-vetcare-primary py-2 transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              <Link
+                to="/doctors"
+                className={`font-medium px-4 py-2 rounded-md transition-colors ${
+                  isActive("/doctors")
+                    ? "bg-vetcare-light text-vetcare-primary"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                onClick={closeMenu}
               >
                 Врачи
               </Link>
-              <Link 
-                to="/contacts" 
-                className="text-gray-700 hover:text-vetcare-primary py-2 transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              <Link
+                to="/contacts"
+                className={`font-medium px-4 py-2 rounded-md transition-colors ${
+                  isActive("/contacts")
+                    ? "bg-vetcare-light text-vetcare-primary"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+                onClick={closeMenu}
               >
                 Контакты
               </Link>
-              <div className="flex items-center space-x-2 py-2">
-                <Phone size={18} className="text-vetcare-primary" />
-                <span className="text-gray-700 font-medium">+7 (800) 123-45-67</span>
+              <div className="px-4">
+                <AppointmentDialog fullWidth={true} />
               </div>
-              <Button className="w-full">Записаться</Button>
             </nav>
           </div>
         )}
